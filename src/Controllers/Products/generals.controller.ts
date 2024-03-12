@@ -1,15 +1,18 @@
 import { Request, Response } from "express";
-import { Generals } from "../../Models/Poducts/generals.model";
+import { Generals, Generalsnterface } from "../../Models/Poducts/generals.model";
 
 export const createGenerals = async (req: Request, res: Response) => {
     try {
-        const product = req.body
+        const product: Generalsnterface = req.body
 
         const findedProduct = await Generals.findOne({ name: product.name });
 
         if (findedProduct) {
             return res.status(400).json({ message: `${product.name} ya esta guardado en la base de datos` });
         };
+        // if (req.body.discount) {
+        //     product.discount = req.body.discount;
+        // }
 
         const newProduct = await new Generals(product).save()
 
