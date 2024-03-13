@@ -1,9 +1,19 @@
 import mongoose from 'mongoose';
 
-export interface DiscountInterface{
+export interface DiscountInterface {
+    ofert: boolean
     percent: number
 }
 
 export const DiscountSchema = new mongoose.Schema<DiscountInterface>({
-    percent: { type: Number, required: true }
-  });
+    ofert: {
+        type: Boolean,
+        default: false,
+        required: true
+    },
+    percent: {
+        type: Number,
+        default: 0,
+        required: true
+    }
+});

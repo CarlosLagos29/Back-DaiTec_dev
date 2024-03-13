@@ -11,8 +11,24 @@ export const getAllProducts = async (_req: Request, res: Response) => {
 
         const allProducts = [...generals, ...makeUp, ... skinCare]
 
-        return res.status(200).json(allProducts); // Devuelve los productos
+        return res.status(200).json(allProducts);
     } catch (error) {
-        return res.status(500).json(error.message); // Maneja los errores
+        return res.status(500).json(error.message); 
+    }
+}
+
+
+export const discountedProducts = async (_req: Request, res: Response) => {
+    try {
+        const generalsWithDiscount = await Generals.find({ discount: { $exists: true, $ne: null } });
+        const makeUpWithDiscount = await MakeUp.find({ discount: { $exists: true, $ne: null } });
+        const skinCareWithDiscount = await SkinCare.find({ discount: { $exists: true, $ne: null } });
+
+        const allProductsWithDiscount = [...generalsWithDiscount, ...makeUpWithDiscount, ...skinCareWithDiscount];
+        
+        return res.status(200).json(allProductsWithDiscount); // Devuelve los productos
+
+    } catch (error) {
+        return res.status(500).json(error.message); 
     }
 }
