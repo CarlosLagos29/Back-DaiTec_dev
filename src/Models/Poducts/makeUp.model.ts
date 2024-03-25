@@ -9,6 +9,7 @@ export interface MakeUpinterface {
    available: number
    colors: Array<string>
    description: string
+   source: string
    discount?: DiscountInterface
 };
 
@@ -19,6 +20,7 @@ const MakeUpSchema = new mongoose.Schema<MakeUpinterface>({
    available: { type: Number, required: true },
    colors: [{ type: String, required: false }],
    description: { type: String, required: true },
+   source: { type: String, default: 'makeups' },
    discount: { type: DiscountSchema, required: false },
 }, { versionKey: false });
 

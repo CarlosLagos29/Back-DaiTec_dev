@@ -8,7 +8,8 @@ export interface Generalsnterface {
    price: number
    available: number
    colors: Array<string>
-   description: string,
+   description: string
+   source: string
    discount?: DiscountInterface
 };
 
@@ -19,6 +20,7 @@ const GeneralsSchema = new mongoose.Schema<Generalsnterface>({
    available: { type: Number, required: true },
    colors: [{ type: String, required: false }],
    description: { type: String, required: true },
+   source: { type: String, default: 'generals' },
    discount: { type: DiscountSchema, required: false },
 }, { versionKey: false });
 

@@ -13,6 +13,7 @@ export interface skinCareInterface {
     price: number
     available: number
     crema: string
+    source: string
     discount?: DiscountInterface
 }
 
@@ -28,6 +29,7 @@ const SkinCareSchema = new mongoose.Schema<skinCareInterface>({
     price: { type: Number, required: true },
     available: { type: Number, required: true },
     crema: { type: String, required: true },
+    source: { type: String, default: 'skincares' },
     discount: { type: DiscountSchema, required: false },
 }, { versionKey: false });
 
