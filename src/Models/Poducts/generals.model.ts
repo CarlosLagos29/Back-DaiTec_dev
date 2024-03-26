@@ -1,6 +1,5 @@
 import { Model } from 'mongoose';
 import mongoose from 'mongoose';
-import { DiscountInterface, DiscountSchema } from './dicount.model';
 
 export interface Generalsnterface {
    name: string
@@ -10,7 +9,7 @@ export interface Generalsnterface {
    colors: Array<string>
    description: string
    source: string
-   discount?: DiscountInterface
+   discount?: number
 };
 
 const GeneralsSchema = new mongoose.Schema<Generalsnterface>({
@@ -21,7 +20,7 @@ const GeneralsSchema = new mongoose.Schema<Generalsnterface>({
    colors: [{ type: String, required: false }],
    description: { type: String, required: true },
    source: { type: String, default: 'generals' },
-   discount: { type: DiscountSchema, required: false },
+   discount: { type: Number, default: 0 },
 }, { versionKey: false });
 
 export const Generals: Model<Generalsnterface> = mongoose.model<Generalsnterface>("General", GeneralsSchema);

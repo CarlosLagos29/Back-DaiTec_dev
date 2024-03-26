@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
 import mongoose from 'mongoose';
-import { DiscountInterface, DiscountSchema } from './dicount.model';
+
 
 export interface MakeUpinterface {
    name: string
@@ -10,7 +10,7 @@ export interface MakeUpinterface {
    colors: Array<string>
    description: string
    source: string
-   discount?: DiscountInterface
+   discount?: number
 };
 
 const MakeUpSchema = new mongoose.Schema<MakeUpinterface>({
@@ -21,7 +21,7 @@ const MakeUpSchema = new mongoose.Schema<MakeUpinterface>({
    colors: [{ type: String, required: false }],
    description: { type: String, required: true },
    source: { type: String, default: 'makeups' },
-   discount: { type: DiscountSchema, required: false },
+   discount: { type: Number, default: 0 },
 }, { versionKey: false });
 
 export const MakeUp: Model<MakeUpinterface> = mongoose.model<MakeUpinterface>("MakeUp", MakeUpSchema);

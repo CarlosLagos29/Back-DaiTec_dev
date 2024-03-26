@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
 import mongoose from 'mongoose';
-import { DiscountInterface, DiscountSchema } from './dicount.model';
+
 
 
 export type skinTypes = "Facial" | "Corporal" | "Facial y Coporal";
@@ -14,7 +14,7 @@ export interface skinCareInterface {
     available: number
     crema: string
     source: string
-    discount?: DiscountInterface
+    discount?: number
 }
 
 const SkinCareSchema = new mongoose.Schema<skinCareInterface>({
@@ -30,7 +30,7 @@ const SkinCareSchema = new mongoose.Schema<skinCareInterface>({
     available: { type: Number, required: true },
     crema: { type: String, required: true },
     source: { type: String, default: 'skincares' },
-    discount: { type: DiscountSchema, required: false },
+    discount: { type: Number, default: 0 },
 }, { versionKey: false });
 
 export const SkinCare: Model<skinCareInterface> = mongoose.model<skinCareInterface>("SkinCare", SkinCareSchema)

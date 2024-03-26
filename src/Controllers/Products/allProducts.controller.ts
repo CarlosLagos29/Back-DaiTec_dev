@@ -20,9 +20,9 @@ export const getAllProducts = async (_req: Request, res: Response) => {
 
 export const discountedProducts = async (_req: Request, res: Response) => {
     try {
-        const generalsWithDiscount = await Generals.find({ discount: { $exists: true, $ne: null } });
-        const makeUpWithDiscount = await MakeUp.find({ discount: { $exists: true, $ne: null } });
-        const skinCareWithDiscount = await SkinCare.find({ discount: { $exists: true, $ne: null } });
+        const generalsWithDiscount = await Generals.find({ discount:  { $gt: 0 } });
+        const makeUpWithDiscount = await MakeUp.find({ discount: { $gt: 0 }});
+        const skinCareWithDiscount = await SkinCare.find({ discount: { $gt: 0 } });
 
         const allProductsWithDiscount = [...generalsWithDiscount, ...makeUpWithDiscount, ...skinCareWithDiscount];
         
