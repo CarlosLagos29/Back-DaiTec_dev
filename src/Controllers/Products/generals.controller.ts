@@ -10,6 +10,11 @@ export const createGenerals = async (req: Request, res: Response) => {
         if (findedProduct) {
             return res.status(400).json({ message: `${product.name} ya esta guardado en la base de datos` });
         };
+        if(product.colors){
+            const totalAvaility = product.colors.reduce((acc, color) => acc + color.availity, 0);
+    
+            product.available = totalAvaility;
+        }
 
         const newProduct = await new Generals(product).save()
 
@@ -53,6 +58,13 @@ export const updateGenerals = async (req: Request, res: Response) => {
         const findedGeneral = await Generals.findById(id);
         if (!findedGeneral) {
             return res.status(404).json({ message: `No se encontro el producto con el id: ${id}` });
+        }
+
+        if(updateData.colors){
+            updateData.colors = updateData.colors.filter(color => color.availity !== -1);
+            const totalAvaility = updateData.colors.reduce((acc, color) => acc + color.availity, 0);
+    
+            updateData.available = totalAvaility;
         }
 
         const updatedProduct = await Generals.findByIdAndUpdate(id, updateData, { new: true })
