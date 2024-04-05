@@ -14,6 +14,7 @@ export const createGenerals = async (req: Request, res: Response) => {
             const totalAvaility = product.colors.reduce((acc, color) => acc + color.availity, 0);
     
             product.available = totalAvaility;
+            product.colors.sort((colorA, colorB) => colorB.availity - colorA.availity);
         }
 
         const newProduct = await new Generals(product).save()
@@ -65,6 +66,8 @@ export const updateGenerals = async (req: Request, res: Response) => {
             const totalAvaility = updateData.colors.reduce((acc, color) => acc + color.availity, 0);
     
             updateData.available = totalAvaility;
+            updateData.colors.sort((colorA, colorB) => colorB.availity - colorA.availity);
+
         }
 
         const updatedProduct = await Generals.findByIdAndUpdate(id, updateData, { new: true })

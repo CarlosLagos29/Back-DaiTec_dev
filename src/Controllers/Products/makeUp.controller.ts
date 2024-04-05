@@ -15,6 +15,7 @@ export const createMakeUps = async (req: Request, res: Response) => {
             const totalAvaility = makeUp.colors.reduce((acc, color) => acc + color.availity, 0);
     
             makeUp.available = totalAvaility;
+            makeUp.colors.sort((colorA, colorB) => colorB.availity - colorA.availity);
         };
 
         const newMakeUp = await new MakeUp(makeUp).save()
@@ -64,8 +65,10 @@ export const updateMakeUps = async (req: Request, res: Response) => {
         if(updateData.colors){
             updateData.colors = updateData.colors.filter(color => color.availity !== -1);
             const totalAvaility = updateData.colors.reduce((acc, color) => acc + color.availity, 0);
-    
+
             updateData.available = totalAvaility;
+            updateData.colors.sort((colorA, colorB) => colorB.availity - colorA.availity);
+
         };
 
         const updatedProduct = await MakeUp.findByIdAndUpdate(id, updateData, { new: true })
