@@ -27,7 +27,7 @@ const SkinCareSchema = new mongoose.Schema<skinCareInterface>({
         required: true
     },
     price: { type: Number, required: true },
-    available: { type: Number, required: true },
+    available: { type: Number,default: 0, required: true },
     crema: { type: String, required: true },
     source: { type: String, default: 'skincares' },
     discount: { type: Number, default: 0 },

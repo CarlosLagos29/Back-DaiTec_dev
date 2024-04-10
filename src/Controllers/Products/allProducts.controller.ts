@@ -26,7 +26,7 @@ export const discountedProducts = async (_req: Request, res: Response) => {
 
         const allProductsWithDiscount = [...generalsWithDiscount, ...makeUpWithDiscount, ...skinCareWithDiscount];
         
-        return res.status(200).json(allProductsWithDiscount); // Devuelve los productos
+        return res.status(200).json(allProductsWithDiscount); 
 
     } catch (error) {
         return res.status(500).json(error.message); 
