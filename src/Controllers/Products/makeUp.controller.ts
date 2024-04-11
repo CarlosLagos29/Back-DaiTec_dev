@@ -28,7 +28,8 @@ export const createMakeUps = async (req: Request, res: Response) => {
 
 export const getMakeUps = async (_req: Request, res: Response) => {
     try {
-        const allMakeUps = await MakeUp.find()
+        const allMakeUps = await MakeUp.find();
+        allMakeUps.sort((a, b) => b.discount - a.discount);
 
         return res.status(200).json(allMakeUps);
     } catch (error) {

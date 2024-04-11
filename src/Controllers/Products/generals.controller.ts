@@ -28,6 +28,7 @@ export const createGenerals = async (req: Request, res: Response) => {
 export const getGenerals = async (_req: Request, res: Response) => {
     try {
         const allGenerals = await Generals.find()
+        allGenerals.sort((a, b) => b.discount - a.discount);
 
         return res.status(200).json(allGenerals);
     } catch (error) {

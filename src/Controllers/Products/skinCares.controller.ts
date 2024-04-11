@@ -21,7 +21,8 @@ export const createSkinCares = async (req: Request, res: Response) => {
 
 export const getSkinCares = async (_req: Request, res: Response) => {
     try {
-        const allSkinCares = await SkinCare.find()
+        const allSkinCares = await SkinCare.find();
+        allSkinCares.sort((a, b) => b.discount - a.discount);
 
         return res.status(200).json(allSkinCares);
     } catch (error) {
