@@ -1,9 +1,10 @@
 import express from "express";
-import { createSkinCares, updateSkinCares, getByIdSkinCares, getSkinCares, deleteSkinCares } from "../../Controllers/Products/skinCares.controller";
+import { createSkinCares, updateSkinCares, getByIdSkinCares, getSkinCares, deleteSkinCares, cremaFilter } from "../../Controllers/Products/skinCares.controller";
 
 const router = express.Router();
 
 router.get("/", getSkinCares);
+router.get("/filter", cremaFilter);
 router.get("/:id", getByIdSkinCares);
 
 router.post("/", createSkinCares);

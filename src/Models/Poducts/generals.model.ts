@@ -1,8 +1,8 @@
-import { Model } from 'mongoose';
-import mongoose from 'mongoose';
+import { PaginateModel, Document, Schema, model } from 'mongoose';
+import paginate from 'mongoose-paginate-v2';
 import { ColorsSchema, ColorsInterface } from './colors.model';
 
-export interface Generalsnterface {
+export interface Generalsnterface extends Document {
    name: string
    img: Array<string>
    price: number
@@ -13,7 +13,7 @@ export interface Generalsnterface {
    discount?: number
 };
 
-const GeneralsSchema = new mongoose.Schema<Generalsnterface>({
+const GeneralsSchema = new Schema<Generalsnterface>({
    name: { type: String, required: true },
    price: { type: Number, required: true },
    img: [{ type: String, required: true }],
@@ -24,4 +24,6 @@ const GeneralsSchema = new mongoose.Schema<Generalsnterface>({
    discount: { type: Number, default: 0 },
 }, { versionKey: false });
 
-export const Generals: Model<Generalsnterface> = mongoose.model<Generalsnterface>("General", GeneralsSchema);
+GeneralsSchema.plugin(paginate);
+
+export const Generals: PaginateModel<Generalsnterface> = model<Generalsnterface, PaginateModel<Generalsnterface>>("General", GeneralsSchema);

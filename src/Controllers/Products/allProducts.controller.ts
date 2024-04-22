@@ -3,22 +3,40 @@ import { Generals } from "../../Models/Poducts/generals.model";
 import { MakeUp } from "../../Models/Poducts/makeUp.model";
 import { SkinCare } from "../../Models/Poducts/skinCares.model";
 
-export const getAllProducts = async (_req: Request, res: Response) => {
-    try {
-        const generals = await Generals.find();
-        const makeUp = await MakeUp.find();
-        const skinCare = await SkinCare.find();
 
-        const allProducts = [...generals, ...makeUp, ...skinCare];
+export const getAllProducts = async (req: Request, res: Response) => {
+    try {
+
+        const page = parseInt(req.query.page as string) || 1;
+        const limit = 15;
+
+        const generalsCount = await Generals.countDocuments();
+        const makeUpCount = await MakeUp.countDocuments();
+        const skinCareCount = await SkinCare.countDocuments();
+
+        const totalDocumentsCount =   makeUpCount + skinCareCount + generalsCount;
+        const generalsLimit = Math.round((generalsCount / totalDocumentsCount) * limit);
+        const makeUpLimit = Math.round((makeUpCount / totalDocumentsCount) * limit);
+        const skinCareLimit = Math.round((skinCareCount / totalDocumentsCount) * limit);
+
+
+        const generals = await Generals.paginate({}, { page, limit: generalsLimit });
+        const makeUp = await MakeUp.paginate({}, { page, limit: makeUpLimit });
+        const skinCare = await SkinCare.paginate({}, { page, limit: skinCareLimit });
+
+        const allProducts = [ ...makeUp.docs, ...skinCare.docs, ...generals.docs]
         allProducts.sort((a, b) => b.discount - a.discount);
 
-        return res.status(200).json(allProducts);
+        const totalProductos = allProducts.length
+        const totalPages = Math.ceil(totalDocumentsCount/limit);
+        return res.status(200).json({allProducts, totalPages, totalDocumentsCount,totalProductos});
     } catch (error) {
         return res.status(500).json(error.message);
     }
 };
 
 
+        // allProducts.sort((a, b) => b.discount - a.discount);
 export const discountedProducts = async (_req: Request, res: Response) => {
     try {
         const generalsWithDiscount = await Generals.find({ discount: { $gt: 0 } });

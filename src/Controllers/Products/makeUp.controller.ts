@@ -26,10 +26,16 @@ export const createMakeUps = async (req: Request, res: Response) => {
     }
 }
 
-export const getMakeUps = async (_req: Request, res: Response) => {
+export const getMakeUps = async (req: Request, res: Response) => {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
     try {
-        const allMakeUps = await MakeUp.find();
-        allMakeUps.sort((a, b) => b.discount - a.discount);
+        const options = {
+            page,
+            limit
+        }
+        const allMakeUps = await MakeUp.paginate({}, options);
+        allMakeUps.docs.sort((a, b) => b.discount - a.discount);
 
         return res.status(200).json(allMakeUps);
     } catch (error) {

@@ -17,18 +17,24 @@ export const createSkinCares = async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(500).json(error.message);
     }
-}
+};
 
-export const getSkinCares = async (_req: Request, res: Response) => {
+export const getSkinCares = async (req: Request, res: Response) => {
+     const page = parseInt(req.query.page as string) || 1;
+     const limit = parseInt(req.query.limit as string) || 10;
     try {
-        const allSkinCares = await SkinCare.find();
-        allSkinCares.sort((a, b) => b.discount - a.discount);
+        const options = {
+            page,
+            limit
+        }
+        const allSkinCares = await SkinCare.paginate({}, options);
+        allSkinCares.docs.sort((a, b) => b.discount - a.discount);
 
         return res.status(200).json(allSkinCares);
     } catch (error) {
         return res.status(500).json(error.message);
     }
-}
+};
 
 export const getByIdSkinCares = async (req: Request, res: Response) => {
     try {
@@ -44,7 +50,7 @@ export const getByIdSkinCares = async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(500).json(error.message);
     }
-}
+};
 
 export const updateSkinCares = async (req: Request, res: Response) => {
     try {
@@ -64,7 +70,7 @@ export const updateSkinCares = async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(500).json(error.message);
     }
-}
+};
 
 export const deleteSkinCares = async (req: Request, res: Response) => {
     try {
@@ -81,4 +87,19 @@ export const deleteSkinCares = async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(500).json(error.message);
     }
-} 
+}; 
+
+export const cremaFilter = async (_req: Request, res: Response) =>{
+    try {
+        const cremas = await SkinCare.find().select('-_id crema');
+        let filter = new Set();
+        
+        cremas.forEach(c => {
+            filter.add(c.crema)
+        });
+
+        return res.status(200).json([...filter]);
+    } catch (error) {
+        return res.status(500).json(error.message);
+    }
+}

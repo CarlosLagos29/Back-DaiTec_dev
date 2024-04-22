@@ -25,10 +25,16 @@ export const createGenerals = async (req: Request, res: Response) => {
     }
 }
 
-export const getGenerals = async (_req: Request, res: Response) => {
+export const getGenerals = async (req: Request, res: Response) => {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
     try {
-        const allGenerals = await Generals.find()
-        allGenerals.sort((a, b) => b.discount - a.discount);
+        const options = {
+            page,
+            limit
+        }
+        const allGenerals = await Generals.paginate({}, options);
+        allGenerals.docs.sort((a, b) => b.discount - a.discount);
 
         return res.status(200).json(allGenerals);
     } catch (error) {
