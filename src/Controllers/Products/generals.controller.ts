@@ -17,7 +17,7 @@ export const createGenerals = async (req: Request, res: Response) => {
             product.colors.sort((colorA, colorB) => colorB.availity - colorA.availity);
         }
 
-        const newProduct = await new Generals(product).save()
+        const newProduct = await new Generals(product).save();
 
         return res.status(200).json(newProduct);
     } catch (error) {
