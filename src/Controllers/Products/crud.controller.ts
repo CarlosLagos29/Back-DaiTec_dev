@@ -30,40 +30,20 @@ export const createProduct = async (req: Request, res: Response) => {
     };
 };
 
-export const getProductByName = async (req: Request, res: Response) => {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
-
+export const getProductById = async (req: Request, res: Response) => {
     try {
-        const { name } = req.query;
-        const option: PaginateOptionsInterface = {
-            page,
-            limit
-        };
-        if (!name || typeof name !== 'string' || name.trim() === '') {
-            return
-        };
+        const { id } = req.params;
 
-        const findedProduct = await Products.paginate({ name: { $regex: new RegExp(name, 'i') } }, option);
-
+        const findedProduct = await Products.findById(id);
         if (!findedProduct) {
-            return res.status(404).json({ message: `No se encontró ningun peoducto '${name}'` })
-        } else {
-            return res.status(200).json(findedProduct);
-        }
-    } catch (error) {
-        return res.status(500).json(error.message);
+            return res.status(404).json({ message: `No se encontro el producto con ID: ${id} para actualizar` })
+        };
 
-    }
-};
-
-export const getAllProducts = async (_req: Request, res: Response, option: PaginateOptionsInterface) => {
-    try {
-        const allProducts = await Products.paginate({}, option)
-        return res.status(200).json(allProducts);
+        return res.status(200).json(findedProduct);
     } catch (error) {
         return res.status(500).json({ message: error.message });
-    }
+
+    };
 };
 
 export const editProduct = async (req: Request, res: Response) => {
@@ -88,7 +68,7 @@ export const editProduct = async (req: Request, res: Response) => {
 export const deleteProducts = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        
+
         const findedProduct = await Products.findById(id);
         if (!findedProduct) {
             return res.status(404).json({ message: `No se encontro el producto con ID: ${id} para eliminar` })
@@ -97,11 +77,11 @@ export const deleteProducts = async (req: Request, res: Response) => {
         findedProduct.img.forEach(async (image) => {
             await deleteCloud(image)
         });
-        
+
         await Products.findByIdAndDelete(id);
         return res.status(200).json({ message: `El Producto ${findedProduct.name} fue eliminado con exito` });
     } catch (error) {
         return res.status(500).json({ message: error.message });
-        
+
     }
 };
