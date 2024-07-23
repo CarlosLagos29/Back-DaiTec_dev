@@ -3,7 +3,7 @@ import { ProductsInterface } from "../../Types/products.types";
 import { deleteCloud } from "../../Helpers/cloudinary.helpers";
 
 import Products from "../../Models/Poducts/products.model";
-import PaginateOptionsInterface from "../../Types/paginateOptions.types";
+
 
 export const createProduct = async (req: Request, res: Response) => {
     try {
@@ -74,10 +74,8 @@ export const deleteProducts = async (req: Request, res: Response) => {
             return res.status(404).json({ message: `No se encontro el producto con ID: ${id} para eliminar` })
         };
 
-        findedProduct.img.forEach(async (image) => {
-            await deleteCloud(image)
-        });
-
+        await deleteCloud(findedProduct.img);
+        
         await Products.findByIdAndDelete(id);
         return res.status(200).json({ message: `El Producto ${findedProduct.name} fue eliminado con exito` });
     } catch (error) {

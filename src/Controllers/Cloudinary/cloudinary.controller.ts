@@ -38,9 +38,9 @@ export const deleteImage = async (req: Request, res: Response) => {
     const { imageUrl } = req.body;
     try {
 
-      await deleteCloud(imageUrl);
+      const result = await deleteCloud(imageUrl);
   
-      res.status(200).json({ message: 'Imagen eliminada exitosamente de Cloudinary' });
+      res.status(200).json(result);
     } catch (error) {
       console.error('Error al eliminar la imagen de Cloudinary:', error);
       res.status(500).json({ error: 'Error al eliminar la imagen de Cloudinary' });
