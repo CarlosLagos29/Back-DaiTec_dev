@@ -1,4 +1,5 @@
 import { Response, Request } from "express";
+import { deleteCloud } from "../../Helpers/cloudinary.helpers";
 
 import PromosInterface from "../../Types/promos.types";
 import Promos from "../../Models/Promos/promos.model";
@@ -47,6 +48,7 @@ export const deleteProm = async (req: Request, res: Response) => {
       return res.status(404).json(`No se encontro la promo con id:${id}`);
     }
 
+    await deleteCloud(findedProm.url);
     await Promos.findByIdAndDelete(id);
 
     return res
