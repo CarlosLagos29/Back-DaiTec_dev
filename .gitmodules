@@ -1,0 +1,3 @@
+[submodule "Back-DaiTec_dev"]
+	path = Back-DaiTec_dev
+	url = git@github.com:CarlosLagos29/Back-DaiTec_dev.git
