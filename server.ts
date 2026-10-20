@@ -1,8 +1,8 @@
-import { server } from "./src/app";
-import dotenv from 'dotenv';
-import mongoose from 'mongoose';
+import { server } from "./src/app.ts";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
 
-dotenv.config();
+dotenv.config({ quiet: true });
 
 const PORT = process.env.PORT;
 const DB_CONECTION = process.env.DB_CONECTION;
@@ -17,7 +17,7 @@ async function startServer() {
             console.log(`Server raised in port: ${PORT}`);
         });
     } catch (error) {
-        console.error('Error starting server:', error);
+        console.error("Error starting server:", error);
     }
 }
 

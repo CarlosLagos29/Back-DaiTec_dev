@@ -1,17 +1,18 @@
-import { Request, Response } from "express";
-import { Profecionals } from "../../Models/Users/profecinals.model";
-import { deleteCloud } from "../../Helpers/cloudinary.helpers";
-
+import type { Request, Response } from "express";
+import { Profecionals } from "../../Models/Users/profecinals.model.ts";
+import { deleteCloud } from "../../Helpers/cloudinary.helpers.ts";
 
 export const createProfecionals = async (req: Request, res: Response) => {
     try {
-        const profecional = req.body
+        const profecional = req.body;
 
         const findedProfecional = await Profecionals.findOne({ name: profecional.name });
 
         if (findedProfecional) {
-            return res.status(400).json({ message: `${profecional.name} ya esta guardado en la base de datos` });
-        };
+            return res
+                .status(400)
+                .json({ message: `${profecional.name} ya esta guardado en la base de datos` });
+        }
 
         const newProfecional = await new Profecionals(profecional).save();
 
@@ -19,7 +20,7 @@ export const createProfecionals = async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(500).json(error.message);
     }
-}
+};
 
 export const getProfecionals = async (_req: Request, res: Response) => {
     try {
@@ -29,7 +30,7 @@ export const getProfecionals = async (_req: Request, res: Response) => {
     } catch (error) {
         return res.status(500).json(error.message);
     }
-}
+};
 
 export const getByIdProfecionals = async (req: Request, res: Response) => {
     try {
@@ -45,11 +46,11 @@ export const getByIdProfecionals = async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(500).json(error.message);
     }
-}
+};
 
 export const updateProfecionals = async (req: Request, res: Response) => {
     try {
-        const updateData = req.body
+        const updateData = req.body;
         const { id } = req.params;
 
         const findedProfecional = await Profecionals.findById(id);
@@ -57,15 +58,15 @@ export const updateProfecionals = async (req: Request, res: Response) => {
             return res.status(404).json({ message: `No se encontro el producto con el id: ${id}` });
         }
 
-        const updatedProduct = await Profecionals.findByIdAndUpdate(id, updateData, { new: true })
-
-        
+        const updatedProduct = await Profecionals.findByIdAndUpdate(id, updateData, {
+            returnDocument: "after",
+        });
 
         return res.status(200).json(updatedProduct);
     } catch (error) {
         return res.status(500).json(error.message);
     }
-}
+};
 
 export const deleteProfecionals = async (req: Request, res: Response) => {
     try {
@@ -77,11 +78,11 @@ export const deleteProfecionals = async (req: Request, res: Response) => {
         }
 
         await deleteCloud(findedProfecional.img);
-        
+
         await Profecionals.findByIdAndDelete(id);
 
         return res.status(200).json(`${findedProfecional.name} fue eliminado con exito`);
     } catch (error) {
         return res.status(500).json(error.message);
     }
-} 
+};

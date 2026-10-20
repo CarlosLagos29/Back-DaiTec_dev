@@ -1,12 +1,12 @@
-import { Router } from 'express';
-import { uploadImage, deleteImage } from '../../Controllers/Cloudinary/cloudinary.controller';
+import { Router } from "express";
+import { uploadImage, deleteImage } from "../../Controllers/Cloudinary/cloudinary.controller.ts";
 
-import multer from 'multer';
+import multer from "multer";
 
 const router = Router();
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: "uploads/" });
 
-router.post('/', upload.single('image'), uploadImage);
-router.delete('/',deleteImage);
+router.post("/", upload.single("image"), uploadImage);
+router.delete("/", deleteImage);
 
 export default router;

@@ -1,5 +1,5 @@
-import { ColorsInterface } from "../Models/Poducts/colors.model";
-import { Document } from "mongoose";
+import type { ColorsInterface } from "../Models/Poducts/colors.model.ts";
+import type { Document } from "mongoose";
 
 export type skinTypes = "Facial" | "Corporal" | "Facial y Corporal";
 export type sourceType = "skincares" | "makeups" | "generals";

@@ -1,6 +1,5 @@
 import express from "express";
-import profecionalsRoutes from "./profecionals.routes"
-
+import profecionalsRoutes from "./profecionals.routes.ts";
 
 const router = express.Router();
 
